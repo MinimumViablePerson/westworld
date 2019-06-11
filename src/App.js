@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Segment } from 'semantic-ui-react'
 
 import WestworldMap from './components/WestworldMap'
@@ -8,149 +8,117 @@ import { getAreas, getHosts } from './services/api'
 import { Log } from './services/Log'
 import './stylesheets/App.css'
 
-class App extends Component {
-  state = {
-    areas: [],
-    hosts: [],
-    selectedHostId: null,
-    logs: []
+const App = () => {
+  const [areas, setAreas] = useState([])
+  const [hosts, setHosts] = useState([])
+  const [logs, setLogs] = useState([])
+  const [selectedHostId, setSelectedHostId] = useState(null)
+
+  const log = type => message => setLogs([Log[type](message), ...logs])
+
+  const logger = {
+    error: log('error'),
+    notify: log('notify'),
+    warn: log('warn')
   }
 
-  log = type => message => this.setState({ logs: [Log[type](message), ...this.state.logs] })
-  logger = {
-    error: this.log('error'),
-    notify: this.log('notify'),
-    warn: this.log('warn')
+  const findHostById = id => hosts.find(host => host.id === id)
+
+  const hostsInThisArea = area => hosts.filter(host => host.area === area.name)
+
+  const limitReachedForThisArea = area => hostsInThisArea(area).length === area.limit
+
+  const formatAreaName = areaName => areaName.replace(/_/g, ' ')
+
+  const accessDenied = (host, area) => !host.authorized && area.auth_req
+
+  const selectedHost = findHostById(selectedHostId)
+  const activeHosts = hosts.filter(host => host.active)
+  const decomissionedHosts = hosts.filter(host => !host.active)
+
+  const activateAllHosts = () => {
+    logger.warn(`Activating all hosts.`)
+    const activatedHosts = hosts.map(host => ({ ...host, active: true }))
+    setHosts(activatedHosts)
   }
 
-  get selectedHost () {
-    const { hosts, selectedHostId } = this.state
-    return hosts.find(host => host.id === selectedHostId)
+  const deactivateAllHosts = () => {
+    logger.notify(`Decomissioning all hosts.`)
+    const decomissionedHosts = hosts.map(host => ({ ...host, active: false }))
+    setHosts(decomissionedHosts)
   }
 
-  get decomissionedHosts () {
-    const { hosts } = this.state
-    return hosts.filter(host => !host.active)
-  }
-
-  get activeHosts () {
-    const { hosts } = this.state
-    return hosts.filter(host => host.active)
-  }
-
-  activateAllHosts = () => {
-    this.logger.warn(`Activating all hosts.`)
-    const hosts = this.state.hosts.map(host => ({ ...host, active: true }))
-    this.setState({ hosts })
-  }
-
-  deactivateAllHosts = () => {
-    this.logger.notify(`Decomissioning all hosts.`)
-    const hosts = this.state.hosts.map(host => ({ ...host, active: false }))
-    this.setState({ hosts })
-  }
-
-  toggleActiveHost = id => {
-    const hosts = this.state.hosts.map(host => host.id === id
+  const toggleActiveHost = id => {
+    const modifiedHosts = hosts.map(host => host.id === id
       ? { ...host, active: !host.active }
       : host
     )
 
     const host = hosts.find(host => host.id === id)
     host.active
-      ? this.logger.warn(`Activated ${host.firstName}.`)
-      : this.logger.notify(`Decomissioned ${host.firstName}.`)
+      ? logger.warn(`Activated ${host.firstName}.`)
+      : logger.notify(`Decomissioned ${host.firstName}.`)
 
-    this.setState({ hosts })
+    setHosts(modifiedHosts)
   }
 
-  findHostById = id => this.state.hosts.find(host => host.id === id)
-
-  hostsInThisArea = area => this.state.hosts.filter(host => host.area === area.name)
-
-  limitReachedForThisArea = area => this.hostsInThisArea(area).length === area.limit
-
-  formatAreaName = areaName => areaName.replace(/_/g, ' ')
-
-  accessDenied = (host, area) => !host.authorized && area.auth_req
-
-  invalidAccess = (host, area) => {
-    if (this.accessDenied(host, area)) {
-      this.logger.error(`Access denied. ${host.firstName} is no authorized to enter ${this.formatAreaName(area.name)}.`)
+  const invalidAccess = (host, area) => {
+    if (accessDenied(host, area)) {
+      logger.error(`Access denied. ${host.firstName} is no authorized to enter ${formatAreaName(area.name)}.`)
       return true
     }
 
-    if (this.limitReachedForThisArea(area)) {
-      this.logger.error(`Too many hosts. Cannot add ${host.firstName} to ${this.formatAreaName(area.name)}.`)
+    if (limitReachedForThisArea(area)) {
+      logger.error(`Too many hosts. Cannot add ${host.firstName} to ${formatAreaName(area.name)}.`)
       return true
     }
     return false
   }
 
-  changeHostArea = id => areaName => {
-    const host = this.state.hosts.find(host => host.id === id)
-    const area = this.state.areas.find(area => area.name === areaName)
+  const changeHostArea = id => areaName => {
+    const host = hosts.find(host => host.id === id)
+    const area = areas.find(area => area.name === areaName)
 
-    if (this.invalidAccess(host, area)) return
+    if (invalidAccess(host, area)) return
 
-    this.logger.notify(`${this.selectedHost.firstName} set in area: ${this.formatAreaName(area.name)}.`)
+    logger.notify(`${selectedHost.firstName} set in area: ${formatAreaName(area.name)}.`)
 
-    const hosts = this.state.hosts.map(host => host.id === id
+    const modifiedHosts = hosts.map(host => host.id === id
       ? { ...host, area: area.name }
       : host
     )
-    this.setState({ hosts })
+    setHosts(modifiedHosts)
   }
 
-  updateState = name => value => this.setState({ [name]: value })
+  const selectHost = host => setSelectedHostId(host.id)
 
-  updateAreas = this.updateState('areas')
-  updateHosts = this.updateState('hosts')
+  useEffect(() => {
+    getAreas().then(setAreas)
+    getHosts().then(setHosts)
+  }, [])
 
-  selectHost = host => this.setState({ selectedHostId: host.id })
-  deselectHost = () => this.setState({ host: null })
-
-  componentDidMount () {
-    getAreas().then(this.updateAreas)
-    getHosts().then(this.updateHosts)
-  }
-
-  render () {
-    const { areas, selectedHostId, logs } = this.state
-    const {
-      selectHost,
-      toggleActiveHost,
-      selectedHost,
-      changeHostArea,
-      activateAllHosts,
-      deactivateAllHosts,
-      activeHosts,
-      decomissionedHosts
-    } = this
-
-    return (
-      <Segment id='app'>
-        <WestworldMap
-          areas={areas}
-          hosts={activeHosts}
-          selectHost={selectHost}
-          selectedHostId={selectedHostId}
-        />
-        <Headquarters
-          toggleActiveHost={toggleActiveHost}
-          areas={areas}
-          hosts={decomissionedHosts}
-          selectHost={selectHost}
-          selectedHost={selectedHost}
-          logs={logs}
-          changeHostArea={changeHostArea}
-          activateAllHosts={activateAllHosts}
-          deactivateAllHosts={deactivateAllHosts}
-          selectedHostId={selectedHostId}
-        />
-      </Segment>
-    )
-  }
+  return (
+    <Segment id='app'>
+      <WestworldMap
+        areas={areas}
+        hosts={activeHosts}
+        selectHost={selectHost}
+        selectedHostId={selectedHostId}
+      />
+      <Headquarters
+        toggleActiveHost={toggleActiveHost}
+        areas={areas}
+        hosts={decomissionedHosts}
+        selectHost={selectHost}
+        selectedHost={selectedHost}
+        logs={logs}
+        changeHostArea={changeHostArea}
+        activateAllHosts={activateAllHosts}
+        deactivateAllHosts={deactivateAllHosts}
+        selectedHostId={selectedHostId}
+      />
+    </Segment>
+  )
 }
 
 export default App

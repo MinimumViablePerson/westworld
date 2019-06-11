@@ -4,7 +4,7 @@ import { Segment } from 'semantic-ui-react'
 import WestworldMap from './components/WestworldMap'
 import Headquarters from './components/Headquarters'
 
-import { getAreas, getHosts } from './services/api'
+import api from './services/api'
 import { Log } from './services/Log'
 import './stylesheets/App.css'
 
@@ -14,7 +14,11 @@ const App = () => {
   const [logs, setLogs] = useState([])
   const [selectedHostId, setSelectedHostId] = useState(null)
 
-  const log = type => message => setLogs([Log[type](message), ...logs])
+  const log = type => message => {
+    const newLog = Log[type](message)
+    api.addLog(newLog)
+    setLogs([newLog, ...logs])
+  }
 
   const logger = {
     error: log('error'),
@@ -39,27 +43,31 @@ const App = () => {
   const activateAllHosts = () => {
     logger.warn(`Activating all hosts.`)
     const activatedHosts = hosts.map(host => ({ ...host, active: true }))
+    activatedHosts.forEach(api.updateHost)
     setHosts(activatedHosts)
   }
 
   const deactivateAllHosts = () => {
     logger.notify(`Decomissioning all hosts.`)
     const decomissionedHosts = hosts.map(host => ({ ...host, active: false }))
+    decomissionedHosts.forEach(api.updateHost)
     setHosts(decomissionedHosts)
   }
 
   const toggleActiveHost = id => {
-    const modifiedHosts = hosts.map(host => host.id === id
+    const updatedHosts = hosts.map(host => host.id === id
       ? { ...host, active: !host.active }
       : host
     )
 
-    const host = hosts.find(host => host.id === id)
+    const host = updatedHosts.find(host => host.id === id)
+
     host.active
       ? logger.warn(`Activated ${host.firstName}.`)
       : logger.notify(`Decomissioned ${host.firstName}.`)
 
-    setHosts(modifiedHosts)
+    api.updateHost(host)
+    setHosts(updatedHosts)
   }
 
   const invalidAccess = (host, area) => {
@@ -83,18 +91,22 @@ const App = () => {
 
     logger.notify(`${selectedHost.firstName} set in area: ${formatAreaName(area.name)}.`)
 
-    const modifiedHosts = hosts.map(host => host.id === id
+    const updatedHosts = hosts.map(host => host.id === id
       ? { ...host, area: area.name }
       : host
     )
-    setHosts(modifiedHosts)
+  
+    const updatedHost = updatedHosts.find(host => host.id === id)
+    api.updateHost(updatedHost)
+    setHosts(updatedHosts)
   }
 
   const selectHost = host => setSelectedHostId(host.id)
 
   useEffect(() => {
-    getAreas().then(setAreas)
-    getHosts().then(setHosts)
+    api.getAreas().then(setAreas)
+    api.getHosts().then(setHosts)
+    api.getLogs().then(setLogs)
   }, [])
 
   return (

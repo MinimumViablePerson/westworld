@@ -4,17 +4,17 @@
       "id": 1,
       "firstName": "Dolores",
       "lastName": "Abernathy",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/5/51/Dolores_Abernathy_Vanishing_Point.jpg/revision/latest?cb=20180613181613",
       "gender": "Female",
-      "area": "under_construction",
+      "area": "high_plains",
       "authorized": true
     },
     {
       "id": 2,
       "firstName": "Bernard",
       "lastName": "Lowe",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/b/b6/Bernard_Les_Ecorches.png/revision/latest/scale-to-width-down/310?cb=20180604190617",
       "gender": "Male",
       "area": "lowlands",
@@ -24,7 +24,7 @@
       "id": 3,
       "firstName": "Maeve",
       "lastName": "Millay",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/d/d8/Maeve_Les_Ecorches.jpg/revision/latest?cb=20180530183051",
       "gender": "Female",
       "area": "pariah",
@@ -34,7 +34,7 @@
       "id": 4,
       "firstName": "Akecheta",
       "lastName": "Kiksuya",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/8/82/Akecheta_Kiksuya.jpg/revision/latest?cb=20180607183222",
       "gender": "Male",
       "area": "python_pass",
@@ -44,7 +44,7 @@
       "id": 5,
       "firstName": "Peter",
       "lastName": "Abernathy",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/a/a2/Peter_Abernathy_%281%29.jpg/revision/latest?cb=20161024014816",
       "gender": "Male",
       "area": "badlands",
@@ -54,7 +54,7 @@
       "id": 6,
       "firstName": "Angela",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/b/b2/Angela_Reunion.jpg/revision/latest/scale-to-width-down/310?cb=20180509174920",
       "gender": "Female",
       "area": "high_plains",
@@ -64,7 +64,7 @@
       "id": 7,
       "firstName": "Akane",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/f/f3/Akane.jpg/revision/latest/scale-to-width-down/310?cb=20180520132523",
       "gender": "Female",
       "area": "lowlands",
@@ -74,7 +74,7 @@
       "id": 8,
       "firstName": "Lawrence",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/c/cb/Lawrence_Reunion.jpg/revision/latest/scale-to-width-down/310?cb=20180613182747",
       "gender": "Male",
       "area": "pariah",
@@ -84,7 +84,7 @@
       "id": 9,
       "firstName": "Teddy",
       "lastName": "Flood",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/a/a9/Teddy_Flood_Phase_Space.jpg/revision/latest/scale-to-width-down/310?cb=20180526115338",
       "gender": "Male",
       "area": "python_pass",
@@ -94,7 +94,7 @@
       "id": 10,
       "firstName": "Clementine",
       "lastName": "Pennyfeather",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/4/44/Clementine_The_Riddle_of_the_Sphinx.jpg/revision/latest?cb=20180516165617",
       "gender": "Female",
       "area": "lowlands",
@@ -104,7 +104,7 @@
       "id": 11,
       "firstName": "Armistice",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/7/78/Armistice_Akane_No_Mai.jpg/revision/latest/scale-to-width-down/310?cb=20180517164314",
       "gender": "Female",
       "area": "high_plains",
@@ -114,17 +114,17 @@
       "id": 12,
       "firstName": "Hector",
       "lastName": "Escaton",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/7/78/Hector_Journey_Into_Night.jpg/revision/latest/scale-to-width-down/310?cb=20180613183102",
       "gender": "Male",
-      "area": "high_plains",
+      "area": "lowlands",
       "authorized": false
     },
     {
       "id": 13,
       "firstName": "Major",
       "lastName": "Carddock",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/3/3b/Major_Craddock_The_Riddle_of_the_Sphinx.jpg/revision/latest?cb=20180511205852",
       "gender": "Male",
       "area": "pariah",
@@ -134,7 +134,7 @@
       "id": 14,
       "firstName": "Rebus",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/f/fe/203_Rebus.png/revision/latest/scale-to-width-down/310?cb=20180607104216",
       "gender": "Male",
       "area": "python_pass",
@@ -144,7 +144,7 @@
       "id": 15,
       "firstName": "Musashi",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/6/6b/Musashi_Akane_No_Mai.jpg/revision/latest/scale-to-width-down/310?cb=20180520131337",
       "gender": "Male",
       "area": "badlands",
@@ -187,43 +187,6 @@
       "name": "badlands",
       "limit": 10,
       "auth_req": false
-    }
-  ],
-  "logs": [
-    {
-      "type": "warn",
-      "msg": "[21:25:24] WARN: Activated Lawrence.",
-      "id": 1
-    },
-    {
-      "type": "warn",
-      "msg": "[21:25:42] WARN: Activating all hosts.",
-      "id": 2
-    },
-    {
-      "type": "warn",
-      "msg": "[21:25:53] WARN: Activating all hosts.",
-      "id": 3
-    },
-    {
-      "type": "notify",
-      "msg": "[21:25:54] NOTIFY: Decomissioning all hosts.",
-      "id": 4
-    },
-    {
-      "type": "warn",
-      "msg": "[21:25:55] WARN: Activating all hosts.",
-      "id": 5
-    },
-    {
-      "type": "error",
-      "msg": "[21:26:07] ERROR: Access denied. Hector is no authorized to enter under construction.",
-      "id": 6
-    },
-    {
-      "type": "notify",
-      "msg": "[21:26:10] NOTIFY: Hector set in area: high plains.",
-      "id": 7
     }
   ]
 }

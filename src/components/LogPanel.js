@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Segment, Button } from 'semantic-ui-react'
 
-const LogPanel = ({ logs, activateAllHosts, deactivateAllHosts }) => {
+import useActions from '../actions'
+import Log from './Log';
+
+const LogPanel = () => {
+  const logs = useSelector(state => state.logs)
+  const { activateAllHosts, decomissionAllHosts } = useActions(useDispatch())
+
   const [active, setActive] = useState(true)
 
   const toggleAllActive = () => {
-    active ? activateAllHosts() : deactivateAllHosts()
+    active ? activateAllHosts() : decomissionAllHosts()
     setActive(!active)
   }
 
@@ -13,7 +20,7 @@ const LogPanel = ({ logs, activateAllHosts, deactivateAllHosts }) => {
     <Segment className='HQComps' id='logPanel'>
       <pre>
         {
-          logs.map((log, i) => <p key={i} className={log.type}>{log.msg}</p>)
+          logs.map((log, i) => <Log key={i} log={log} />)
         }
       </pre>
 

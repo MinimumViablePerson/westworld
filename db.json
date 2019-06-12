@@ -74,7 +74,7 @@
       "id": 8,
       "firstName": "Lawrence",
       "lastName": "n/a",
-      "active": true,
+      "active": false,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/c/cb/Lawrence_Reunion.jpg/revision/latest/scale-to-width-down/310?cb=20180613182747",
       "gender": "Male",
       "area": "pariah",
@@ -87,7 +87,7 @@
       "active": true,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/a/a9/Teddy_Flood_Phase_Space.jpg/revision/latest/scale-to-width-down/310?cb=20180526115338",
       "gender": "Male",
-      "area": "python_pass",
+      "area": "high_plains",
       "authorized": false
     },
     {
@@ -224,6 +224,16 @@
       "type": "notify",
       "msg": "[21:26:10] NOTIFY: Hector set in area: high plains.",
       "id": 7
+    },
+    {
+      "type": "notify",
+      "msg": "[21:33:32] NOTIFY: Teddy set in area: high plains.",
+      "id": 8
+    },
+    {
+      "type": "notify",
+      "msg": "[21:35:18] NOTIFY: Decomissioned Lawrence.",
+      "id": 9
     }
   ]
 }

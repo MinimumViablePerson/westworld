@@ -1,18 +1,20 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Segment, Image } from 'semantic-ui-react'
+
 import { westworldLogo } from '../services/Images'
 import HostInfo from './HostInfo'
 
-const Details = ({ host, areas, toggleActiveHost, changeHostArea }) => {
-  const renderHostInfo = () => host
-    ? <HostInfo changeHostArea={changeHostArea(host.id)} toggleActiveHost={toggleActiveHost} host={host} areas={areas} />
-    : <Image size='medium' src={westworldLogo} />
+const Details = () => {
+  const hostIsSelected = useSelector(state => state.selectedHostId !== null)
 
-  return (
-    <Segment id='details' className='HQComps'>
-      { renderHostInfo() }
-    </Segment>
-  )
+  return <Segment id='details' className='HQComps'>
+    {
+      hostIsSelected
+        ? <HostInfo />
+        : <Image size='medium' src={westworldLogo} />
+    }
+  </Segment>
 }
 
 export default Details

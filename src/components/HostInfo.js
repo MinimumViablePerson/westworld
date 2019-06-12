@@ -1,14 +1,25 @@
 import React from 'react'
 import { Radio, Icon, Card, Grid, Image, Dropdown, Divider } from 'semantic-ui-react'
+import { useSelector, useDispatch } from 'react-redux'
+
+import useActions from '../actions'
 import '../stylesheets/HostInfo.css'
 
-const HostInfo = ({ host, areas, changeHostArea, toggleActiveHost }) => {
+const HostInfo = () => {
+  const { activateHost, decomissionHost, changeHostArea } = useActions(useDispatch())
+
+  const host = useSelector(state => state.hosts.find(host => host.id === state.selectedHostId))
+  const areas = useSelector(state => state.areas)
   const areaOptions = areas
     .map(area => ({ key: area.id, text: area.name.replace(/_/g, ' '), value: area.name }))
 
-  const handleChange = (_, { value }) => changeHostArea(value)
+  const handleChange = (_, { value: area }) => {
+    changeHostArea(host, area)
+  }
 
-  const toggle = () => toggleActiveHost(host.id)
+  const toggle = () => {
+    host.active ? decomissionHost(host) : activateHost(host)
+  }
 
   return (
     <Grid>

@@ -1,4 +1,4 @@
-export class Log {
+export default class Log {
   static error(msg){
     let date = new Date();
     let time = date.toLocaleTimeString();

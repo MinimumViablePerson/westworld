@@ -16,6 +16,7 @@ import {
   ACTIVATE_ALL_HOSTS
 } from './types'
 import api from '../services/api'
+import { store } from '../index'
 
 export default dispatch => ({
   fetchAreas () {
@@ -37,21 +38,33 @@ export default dispatch => ({
       .catch(error => dispatch({ type: FETCHED_LOGS_ERROR, error }))
   },
   activateHost (host) {
+    host = { ...host, active: true }
+    api.updateHost(host)
     dispatch({ type: ACTIVATE_HOST, host })
   },
   decomissionHost (host) {
+    host = { ...host, active: false }
+    api.updateHost(host)
     dispatch({ type: DECOMISSION_HOST, host })
   },
   selectHost (host) {
     dispatch({ type: SELECT_HOST, host })
   },
   changeHostArea (host, area) {
+    host = { ...host, area }
+    api.updateHost(host)
     dispatch({ type: CHANGE_HOST_AREA, host, area })
   },
   activateAllHosts () {
-    dispatch({ type: ACTIVATE_ALL_HOSTS })
+    const { hosts } = store.getState()
+    const activatedHosts = hosts.map(host => ({ ...host, active: true }))
+    activatedHosts.forEach(api.updateHost)
+    dispatch({ type: ACTIVATE_ALL_HOSTS, hosts: activatedHosts })
   },
   decomissionAllHosts () {
-    dispatch({ type: DECOMISSION_ALL_HOSTS })
+    const { hosts } = store.getState()
+    const deactivatedHosts = hosts.map(host => ({ ...host, active: false }))
+    deactivatedHosts.forEach(api.updateHost)
+    dispatch({ type: DECOMISSION_ALL_HOSTS, hosts: deactivatedHosts })
   }
 })

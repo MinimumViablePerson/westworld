@@ -9,9 +9,9 @@ const decomissionHost = (hosts, id) => hosts
 const changeHostArea = (hosts, id, area) => hosts
   .map(host => host.id === id ? {...host, area} : host)
 
-const activateAllHosts = hosts => hosts.map(host => ({ ...host, active: true }))
+// const activateAllHosts = hosts => hosts.map(host => ({ ...host, active: true }))
 
-const decomissionAllHosts = hosts => hosts.map(host => ({ ...host, active: false }))
+// const decomissionAllHosts = hosts => hosts.map(host => ({ ...host, active: false }))
 
 export default (hosts = [], action) => {
   switch (action.type) {
@@ -24,9 +24,9 @@ export default (hosts = [], action) => {
     case CHANGE_HOST_AREA:
       return changeHostArea(hosts, action.host.id, action.area)
     case ACTIVATE_ALL_HOSTS:
-      return activateAllHosts(hosts)
+      return action.hosts
     case DECOMISSION_ALL_HOSTS:
-      return decomissionAllHosts(hosts)
+      return action.hosts
     default:
       return hosts
   }

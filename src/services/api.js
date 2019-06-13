@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3001'
+const baseUrl = 'http://localhost:3000'
 const areasUrl = baseUrl + '/areas'
 const hostsUrl = baseUrl + '/hosts'
 const logsUrl = baseUrl + '/logs?_sort=id&_order=desc'

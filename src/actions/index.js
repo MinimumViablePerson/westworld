@@ -58,13 +58,25 @@ export default dispatch => ({
   activateAllHosts () {
     const { hosts } = store.getState()
     const activatedHosts = hosts.map(host => ({ ...host, active: true }))
+
+    // optimistic
     activatedHosts.forEach(api.updateHost)
     dispatch({ type: ACTIVATE_ALL_HOSTS, hosts: activatedHosts })
+
+    // conditional: json-server fails when too many requests are fired simultaneously
+    // in a custom API I'd have a single endpoint activate/decomission all hosts
+    Promise.all(activatedHosts.map(api.updateHost))
+      .then(hosts => dispatch({ type: ACTIVATE_ALL_HOSTS, hosts }))
   },
   decomissionAllHosts () {
     const { hosts } = store.getState()
     const deactivatedHosts = hosts.map(host => ({ ...host, active: false }))
+
+    // optimistic
     deactivatedHosts.forEach(api.updateHost)
     dispatch({ type: DECOMISSION_ALL_HOSTS, hosts: deactivatedHosts })
+
+    // Promise.all(deactivatedHosts.map(api.updateHost))
+    //   .then(hosts => dispatch({ type: DECOMISSION_ALL_HOSTS, hosts }))
   }
 })

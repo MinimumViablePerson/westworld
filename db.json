@@ -7,7 +7,7 @@
       "active": true,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/5/51/Dolores_Abernathy_Vanishing_Point.jpg/revision/latest?cb=20180613181613",
       "gender": "Female",
-      "area": "under_construction",
+      "area": "high_plains",
       "authorized": true
     },
     {
@@ -44,7 +44,7 @@
       "id": 5,
       "firstName": "Peter",
       "lastName": "Abernathy",
-      "active": false,
+      "active": true,
       "imageUrl": "https://vignette.wikia.nocookie.net/westworld/images/a/a2/Peter_Abernathy_%281%29.jpg/revision/latest?cb=20161024014816",
       "gender": "Male",
       "area": "badlands",
